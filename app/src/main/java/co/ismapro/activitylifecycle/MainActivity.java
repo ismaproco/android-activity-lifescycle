@@ -4,16 +4,39 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    //define an external class attribute to keep the textInformation
+    TextView messageText;
+    StringBuffer logger = new StringBuffer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize textView for further manipulation
+        messageText = (TextView) findViewById(R.id.text_message);
+        logger.append("OnCreate method\n");
+        messageText.setText( logger.toString() );
     }
 
+    @Override
+    public void onPause() {
+        super.onPause(); // Always call the superclass when overriding the methods
+        logger.append("OnPause method\n");
+        messageText.setText( logger.toString() );
+    }
+
+    @Override
+    public void onResume() {
+        super.onPause(); // Always call the superclass when overriding the methods
+        logger.append("OnResume method\n");
+        messageText.setText( logger.toString() );
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
