@@ -1,5 +1,6 @@
 package co.ismapro.activitylifecycle;
 
+import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,20 +22,38 @@ public class MainActivity extends ActionBarActivity {
         // Initialize textView for further manipulation
         messageText = (TextView) findViewById(R.id.text_message);
         logger.append("OnCreate method\n");
-        messageText.setText( logger.toString() );
+        showLogger();
     }
 
     @Override
     public void onPause() {
         super.onPause(); // Always call the superclass when overriding the methods
         logger.append("OnPause method\n");
-        messageText.setText( logger.toString() );
+        showLogger();
     }
 
     @Override
     public void onResume() {
         super.onPause(); // Always call the superclass when overriding the methods
         logger.append("OnResume method\n");
+        showLogger();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig); // Call the method even if it is override
+
+        //check for the orientation change
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            logger.append("Orientation Change Landscape\n");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            logger.append("Orientation Change Portrait\n");
+        }
+
+        showLogger();
+    }
+
+    public void showLogger() {
         messageText.setText( logger.toString() );
     }
 
