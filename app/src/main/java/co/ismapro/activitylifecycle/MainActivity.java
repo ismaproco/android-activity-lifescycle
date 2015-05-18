@@ -1,5 +1,6 @@
 package co.ismapro.activitylifecycle;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,11 +14,16 @@ public class MainActivity extends ActionBarActivity {
     //define an external class attribute to keep the textInformation
     TextView messageText;
     StringBuffer logger = new StringBuffer();
+    String LOGGER = "LOGGER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(savedInstanceState != null) {
+            logger.append("Loaded From Saved Instance ->\n"+savedInstanceState.getString(LOGGER));
+        }
 
         // Initialize textView for further manipulation
         messageText = (TextView) findViewById(R.id.text_message);
@@ -40,6 +46,27 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    public void onStop() {
+        super.onStop(); // ACSO
+        logger.append("OnStop method\n");
+        showLogger();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart(); // ACSO
+        logger.append("OnStart method\n");
+        showLogger();
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart(); // ACSO
+        logger.append("onRestart method\n");
+        showLogger();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig); // Call the method even if it is override
 
@@ -53,9 +80,25 @@ public class MainActivity extends ActionBarActivity {
         showLogger();
     }
 
+    @Override
+    public void onSaveInstanceState( Bundle savedInstanceState ) {
+        super.onSaveInstanceState(savedInstanceState); // ACSO
+        logger.append("Saved Instance State\n");
+        savedInstanceState.putString(LOGGER, logger.toString());
+    }
+
+    /*
+    * Utility Methods
+    * */
+
+    //show log information in the textview
     public void showLogger() {
         messageText.setText( logger.toString() );
     }
+
+    /*
+    * Action Bar Methods
+    * */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,6 +116,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, CustomActivity.class );
+            startActivity(intent);
             return true;
         }
 
