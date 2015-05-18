@@ -19,3 +19,8 @@ Please look at this entry in the android Documentation for more information.
 http://developer.android.com/guide/topics/resources/runtime-changes.html
 
 
+Third Commit
+-------------
+
+Added addtional activity and recreate Activity information using the SavedInstance.
+
